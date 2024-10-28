@@ -12,6 +12,17 @@ class Academia {
   method estaGuardado(cosa) {
 	return muebles.any({mueble => mueble.estaAca(cosa)})
   }
+
+  method enQueMuebleEsta(cosa) {
+	self.validarSiEsta(cosa)
+	return muebles.filter({mueble => mueble.estaAca(cosa)})
+  }
+
+  method validarSiEsta(cosa) {
+	if(!self.estaGuardado(cosa)){
+		self.error("La cosa"+ cosa +"no esta en ningun mueble.")
+	}
+  }
   
 }
 

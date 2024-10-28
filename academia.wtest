@@ -30,13 +30,16 @@ describe "Academia de Magia" {
  		assert.equals(false, academia.estaGuardado(lamparaAladino))
   	}
  
-/* 
- * 	test "punto 1.2, saber en que mueble esta guardado algo" {
- * 		// TODO: Verificar que el mueble donde se guarda la varita está es el gabinete mágico
- * 		// TODO: Verificar que el mueble donde se guarda la pelota está guardada es el armario
- * 		// TODO: Verificar que el mueble donde se guarda la escoba está guardada es el baúl
- * 	}
- */
+  	test "punto 1.2, saber en que mueble esta guardado algo" {
+		assert.throwsException({ academia.enQueMuebleEsta(pava)})
+  		// TODO: Verificar que el mueble donde se guarda la varita está es el gabinete mágico
+		assert.equals(#{gabineteMagico}, academia.enQueMuebleEsta(varita))
+ 		// TODO: Verificar que el mueble donde se guarda la pelota está guardada es el armario
+		assert.equals(#{armario}, academia.enQueMuebleEsta(pelota))
+  		// TODO: Verificar que el mueble donde se guarda la escoba está guardada es el baúl
+		assert.equals(#{baul}, academia.enQueMuebleEsta(escoba))
+  	}
+ 
 /*
  * 	test "punto 1.3, saber si se puede guardar algo" {
  * 		// TODO: Verificar que la varita NO se puede guardar en la academia
