@@ -7,29 +7,29 @@ describe "Academia de Magia" {
 	 * Si el diseño de la solución utiliza objetos bien conocidos en algunos casos entonces 
 	 * se debe remover la declaración de la constante y el comentario que se sugiere la instanciación.
 	 */
-	const pelota = null // TODO: construir/obtener una cosa con volumen = 3, marca = cuchuflito, no es mágica ni una reliquia
-	const escoba = null // TODO: construir/obtener una cosa con volumen = 4, marca = acme, es mágica y una reliquia
-	const varita = null // TODO: construir/obtener una cosa con volumen = 1, marca = fenix, es mágica pero no es una reliquia
-	const pava = null // TODO: construir/obtener una cosa con volumen = 2, marca = acme, no es magica pero sí una reliquia
-	const lamparaAladino = null // TODO: construir/obtener una cosa con volumen = 3, marca = fenix, es mágica y una reliquia
-	const baul = null // TODO: construir/obtener un baúl con volumen máximo = 5 y la escoba dentro
-	const gabineteMagico = null // TODO: construir/obtener un gabinete mágico con la varita dentro. El precio = 6 (segunda parte)
-	const armario = null // TODO: construir/obtener un armario con cantidad máxima = 2 y la pelota dentro
-	const academia = null // TODO: construir/obtener una academia que tiene el baúl, el gabinete mágico y el armario
+	const pelota = new Cosa(marca = Cuchuflito, volumen = 3, esElementoMagico = false, esReliquia = false)
+	const escoba = new Cosa(marca = Acme, volumen = 4, esElementoMagico = true, esReliquia = true ) 
+	const varita = new Cosa(marca = Fenix, volumen = 1, esElementoMagico = true, esReliquia = false)
+	const pava = new Cosa(marca = Acme, volumen=2,esElementoMagico=false, esReliquia=true) 
+	const lamparaAladino = new Cosa(marca=Fenix, volumen=3, esElementoMagico=true, esReliquia= true) 
+	const baul = new Baul(capacidadMax=5, pertenencias = [escoba])
+	const gabineteMagico = new GabineteMagico(pertenencias = [varita]) // El precio = 6 (segunda parte)
+	const armario = new Armario(cantidadMax = 2, pertenencias = [pelota]) 
+	const academia = new Academia(muebles=#{baul, gabineteMagico, armario}) 
 
 /* ACLARACIÓN
  * Los tests están comentados para evitar errores y warnings, así poder ir incorporándolos 
  * a medida que se avanza con la solución del ejercicio
  */
-/*
- * 	test "punto 1.1 saber si está guardado algo" {
- * 		// TODO: Verificar que la varita está guardada en la academia
- * 		// TODO: Verificar que la pelota está guardada en la academia
- * 		// TODO: Verificar que la escoba está guardada en la academia
- * 		// TODO: Verificar que la pava NO está guardada en la academia
- * 		// TODO: Verificar que la lámpara NO está guardada en la academia
- * 	}
- */
+
+ 	test "punto 1.1 saber si está guardado algo" {
+		assert.equals(true, academia.estaGuardado(varita))
+  		assert.equals(true, academia.estaGuardado(pelota))
+ 		assert.equals(true, academia.estaGuardado(escoba))
+ 		assert.equals(false, academia.estaGuardado(pava))
+ 		assert.equals(false, academia.estaGuardado(lamparaAladino))
+  	}
+ 
 /* 
  * 	test "punto 1.2, saber en que mueble esta guardado algo" {
  * 		// TODO: Verificar que el mueble donde se guarda la varita está es el gabinete mágico
