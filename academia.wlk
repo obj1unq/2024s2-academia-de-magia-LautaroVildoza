@@ -58,6 +58,31 @@ class Academia {
   method guardarEnMuebleDisponible(cosa) {
 	self.mueblesDisponible(cosa).anyOne().agregar(cosa)
   }
+
+  method cosasMenosUtiles() {
+	return muebles.map({m => m.cosaMenosUtil()})
+  }
+
+  method marcaMenosUtil() {
+	return self.cosasMenosUtiles().min({c => c.utilidad()}).marca()
+  }
+
+  method removerCosaMenosUtilesQueNoSeanMagicas() {
+	self.validarRemover()
+	self.cosasMenosUtilesNoMagicas().forEach({c => self.remover(c)})
+  }
+
+ method cosasMenosUtilesNoMagicas() {
+   return self.cosasMenosUtiles().filter({c => not c.esElementoMagico()})
+ }
+  method remover(cosa) {
+	self.enQueMuebleEsta(cosa).remover(cosa)
+  }
+
+  method validarRemover() {
+	if(muebles.size() < 3)
+		self.error("No se puede remover!.")
+  }
   
 }
 
@@ -74,7 +99,7 @@ class Mueble {
 
 	method puedoGuardar(cosa) 
 
-	method utlidad(){
+	method utilidad(){
 		return self.utilidadDeCosas() / self.precio()
 	}
 
@@ -84,6 +109,13 @@ class Mueble {
 
 	method precio()
 
+	method cosaMenosUtil() {
+	  return pertenencias.min({ c => c.utilidad()})
+	}
+
+	method remover(cosa) {
+	  pertenencias.remove(cosa)
+	}
 }
 
 class Armario inherits Mueble {
@@ -100,14 +132,14 @@ class Armario inherits Mueble {
 
 class GabineteMagico inherits Mueble {
 	const property precio
+
   override method puedoGuardar(cosa) {
 	return cosa.esElementoMagico() && not pertenencias.contains(cosa)
   }
 }
 
 class Baul inherits Mueble {
-	const property capacidadMax 
-
+	const capacidadMax 
   
   override method puedoGuardar(cosa){
 	return (cosa.volumen() + self.volumenTotal() < capacidadMax and not pertenencias.contains(cosa))
@@ -121,10 +153,6 @@ class Baul inherits Mueble {
 	return capacidadMax + 2
   }
 
-  override method utilidad(){
-	return super() + self.extraTodasSonReliquias()
-  }
-
   method extraTodasSonReliquias() {
 	return if(self.sonTodasReliquias()) 2 else 0
   }
@@ -132,13 +160,17 @@ class Baul inherits Mueble {
   method sonTodasReliquias(){
 	return pertenencias.all({c => c.esReliquia()})
   }
+
+	override method utilidad() {
+		return super() + self.extra()
+  }
+
+  method extra() {
+	return if(pertenencias.all({c => c.esReliquia()})) 2 else 0
+  }
 }
 
 class BaulMagico inherits Baul {
-
-  override method utilidad(){
-	return super() + self.cantidadDeCosasMagicas()
-  }
 
   method cantidadDeCosasMagicas() {
 	return pertenencias.count({ c => c.esElementoMagico()})
@@ -147,6 +179,10 @@ class BaulMagico inherits Baul {
 
   override method precio(){
 	return super() * 2
+  }
+
+  override method utilidad() {
+	return super() + self.cantidadDeCosasMagicas()
   }
 }
 
